@@ -32,6 +32,16 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# data
+/data
+
+# claude code (contains local paths)
+/.claude/settings.json
+
+# serena memories (local)
+.serena/memories/
 
 # vercel
 .vercel
@@ -39,3 +49,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ai
+.claude/
+.serena/

@@ -2,6 +2,7 @@
 
 import { useCallback } from "react"
 import { useChatStore } from "@/stores/chat-store"
+import { useChatSettingsStore } from "@/stores/chat-settings-store"
 import type { Message } from "@/stores/chat-store"
 
 export function useChat(chatId: string) {
@@ -35,11 +36,20 @@ export function useChat(chatId: string) {
       setIsStreaming(true)
       setStreamingContent("")
 
+      const { provider, model, temperature, maxTokens } =
+        useChatSettingsStore.getState()
+
       try {
         const res = await fetch(`/api/chat/${chatId}/messages`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content }),
+          body: JSON.stringify({
+            content,
+            provider,
+            model,
+            temperature,
+            maxTokens,
+          }),
         })
 
         if (!res.ok) {

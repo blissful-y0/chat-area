@@ -5,6 +5,7 @@ import { db } from "@/lib/db"
 import { users } from "@/lib/db/schema"
 import { eq } from "drizzle-orm"
 import { z } from "zod/v4"
+import { authConfig } from "./config.edge"
 
 const loginSchema = z.object({
   username: z.string().min(1),
@@ -12,6 +13,7 @@ const loginSchema = z.object({
 })
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   providers: [
     Credentials({
       credentials: {
@@ -43,28 +45,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60,
-  },
-  callbacks: {
-    jwt({ token, user }) {
-      if (user) {
-        return { ...token, userId: user.id }
-      }
-      return token
-    },
-    session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.userId as string,
-        },
-      }
-    },
-  },
-  pages: {
-    signIn: "/login",
-  },
 })

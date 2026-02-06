@@ -14,8 +14,9 @@ interface SettingRow {
 const SETTINGS: SettingRow[] = [
   { key: "openai_api_key", label: "OpenAI API Key", type: "api_key" },
   { key: "anthropic_api_key", label: "Anthropic API Key", type: "api_key" },
-  { key: "google_api_key", label: "Google API Key", type: "api_key" },
+  { key: "google_api_key", label: "Google AI API Key", type: "api_key" },
   { key: "openrouter_api_key", label: "OpenRouter API Key", type: "api_key" },
+  { key: "ollama_url", label: "Ollama URL", type: "text" },
   {
     key: "default_provider",
     label: "Default Provider",
@@ -23,7 +24,8 @@ const SETTINGS: SettingRow[] = [
     options: [
       { value: "openai", label: "OpenAI" },
       { value: "anthropic", label: "Anthropic" },
-      { value: "google", label: "Google" },
+      { value: "google", label: "Google AI" },
+      { value: "ollama", label: "Ollama (Local)" },
       { value: "openrouter", label: "OpenRouter" },
     ],
   },

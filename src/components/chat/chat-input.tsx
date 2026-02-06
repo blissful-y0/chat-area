@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react"
 import { Send } from "lucide-react"
+import { ModelSelector } from "./model-selector"
 
 interface ChatInputProps {
   onSend: (content: string) => void
@@ -45,6 +46,9 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
   return (
     <div className="border-t border-zinc-800 p-4">
       <div className="mx-auto max-w-3xl">
+        <div className="mb-2 flex items-center justify-between">
+          <ModelSelector />
+        </div>
         <div className="flex items-end gap-2 rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2">
           <textarea
             ref={textareaRef}

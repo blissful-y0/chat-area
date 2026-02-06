@@ -1,23 +1,9 @@
-import { auth } from "@/lib/auth/config"
-import { NextResponse } from "next/server"
+import NextAuth from "next-auth"
+import { authConfig } from "@/lib/auth/config.edge"
 
-export default auth((req) => {
-  const isApi = req.nextUrl.pathname.startsWith("/api/")
-  const isAuthRoute =
-    req.nextUrl.pathname.startsWith("/login") ||
-    req.nextUrl.pathname.startsWith("/register")
+const { auth } = NextAuth(authConfig)
 
-  if (!req.auth && isApi) {
-    return NextResponse.json(
-      { success: false, error: "Unauthorized" },
-      { status: 401 }
-    )
-  }
-
-  if (!req.auth && !isAuthRoute) {
-    return NextResponse.redirect(new URL("/login", req.url))
-  }
-})
+export default auth
 
 export const config = {
   matcher: [

@@ -16,24 +16,52 @@ function resolveSlotContent(
 ): SlotContent | null {
   switch (slotId) {
     case "system_prompt": {
-      const text = processMacros(context.systemPrompt, macroCtx)
+      // World preset system prompt takes priority, fallback to character's
+      const raw = context.worldSystemPrompt || context.characterSystemPrompt
+      const text = processMacros(raw, macroCtx)
       return text ? { id: slotId, text, role: "system" } : null
+    }
+    case "world_lore": {
+      // World-level system prompt when both world and character have system prompts
+      if (context.worldSystemPrompt && context.characterSystemPrompt) {
+        const text = processMacros(context.characterSystemPrompt, macroCtx)
+        return text
+          ? { id: slotId, text: `[Character Instructions: ${text}]`, role: "system" }
+          : null
+      }
+      return null
     }
     case "description": {
       const text = processMacros(context.characterDescription, macroCtx)
-      return text ? { id: slotId, text: `[${context.characterName}'s Description: ${text}]`, role: "system" } : null
+      return text
+        ? {
+            id: slotId,
+            text: `[${context.characterName}'s Description: ${text}]`,
+            role: "system",
+          }
+        : null
     }
     case "personality": {
       const text = processMacros(context.characterPersonality, macroCtx)
-      return text ? { id: slotId, text: `[${context.characterName}'s Personality: ${text}]`, role: "system" } : null
+      return text
+        ? {
+            id: slotId,
+            text: `[${context.characterName}'s Personality: ${text}]`,
+            role: "system",
+          }
+        : null
     }
     case "scenario": {
       const text = processMacros(context.characterScenario, macroCtx)
-      return text ? { id: slotId, text: `[Scenario: ${text}]`, role: "system" } : null
+      return text
+        ? { id: slotId, text: `[Scenario: ${text}]`, role: "system" }
+        : null
     }
     case "message_example": {
       const text = processMacros(context.characterMessageExample, macroCtx)
-      return text ? { id: slotId, text: `[Example dialogue:\n${text}]`, role: "system" } : null
+      return text
+        ? { id: slotId, text: `[Example dialogue:\n${text}]`, role: "system" }
+        : null
     }
     case "post_history_instructions": {
       const text = processMacros(context.postHistoryInstructions, macroCtx)
@@ -62,12 +90,6 @@ function resolveSlotContent(
   }
 }
 
-function buildSystemMessage(
-  systemSlots: SlotContent[],
-): string {
-  return systemSlots.map((s) => s.text).join("\n\n")
-}
-
 export function buildPrompt(
   context: PromptContext,
   model = "gpt-4o"
@@ -87,7 +109,7 @@ export function buildPrompt(
 
   // Build system message from all system slots
   const systemSlots = resolvedSlots.filter((s) => s.role === "system")
-  const systemMessage = buildSystemMessage(systemSlots)
+  const systemMessage = systemSlots.map((s) => s.text).join("\n\n")
   const systemTokens = countTokens(systemMessage, model)
 
   // Process chat messages with macro substitution
@@ -97,7 +119,8 @@ export function buildPrompt(
   }))
 
   // Calculate available tokens for messages
-  const availableForMessages = context.maxContextTokens - systemTokens - 100 // 100 token safety margin
+  const availableForMessages =
+    context.maxContextTokens - systemTokens - 100
 
   // Truncate messages from the beginning if needed, keeping recent ones
   let truncatedCount = 0
@@ -116,7 +139,7 @@ export function buildPrompt(
     )
   }
 
-  // Find where post_history_instructions should be inserted
+  // Find post_history_instructions slot
   const postHistorySlot = resolvedSlots.find(
     (s) => s.id === "post_history_instructions"
   )

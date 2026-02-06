@@ -8,7 +8,8 @@ import { z } from "zod/v4"
 
 const createChatSchema = z.object({
   title: z.string().min(1).max(200).optional(),
-  characterId: z.string().uuid().nullable().optional(),
+  characterId: z.string().nullable().optional(),
+  worldPresetId: z.string().nullable().optional(),
 })
 
 export async function GET() {
@@ -61,6 +62,7 @@ export async function POST(request: Request) {
       userId,
       title: parsed.data.title ?? "New Chat",
       characterId: parsed.data.characterId ?? null,
+      worldPresetId: parsed.data.worldPresetId ?? null,
     }
 
     db.insert(chats).values(chat).run()

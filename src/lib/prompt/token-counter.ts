@@ -56,7 +56,7 @@ export function truncateToTokenLimit(
   if (tokens.length <= maxTokens) return text
 
   const truncated = tokens.slice(0, maxTokens)
-  return new TextDecoder().decode(
-    encoder.decode(truncated)
-  )
+  const decoded = encoder.decode(truncated)
+  if (typeof decoded === "string") return decoded
+  return new TextDecoder().decode(new Uint8Array(decoded as ArrayBuffer))
 }

@@ -45,12 +45,44 @@ export const characters = sqliteTable("characters", {
     .default(sql`(datetime('now'))`),
 })
 
+export const worldPresets = sqliteTable("world_presets", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  description: text("description").notNull().default(""),
+  systemPrompt: text("system_prompt").notNull().default(""),
+  postHistoryInstructions: text("post_history_instructions")
+    .notNull()
+    .default(""),
+  formattingOrder: text("formatting_order")
+    .notNull()
+    .default(
+      '["system_prompt","world_lore","description","personality","scenario","lorebook_before","message_example","messages","lorebook_after","post_history_instructions"]'
+    ),
+  defaultProvider: text("default_provider"),
+  defaultModel: text("default_model"),
+  temperature: real("temperature").notNull().default(0.8),
+  maxTokens: integer("max_tokens").notNull().default(4096),
+  maxContext: integer("max_context").notNull().default(128000),
+  createdAt: text("created_at")
+    .notNull()
+    .default(sql`(datetime('now'))`),
+  updatedAt: text("updated_at")
+    .notNull()
+    .default(sql`(datetime('now'))`),
+})
+
 export const lorebooks = sqliteTable("lorebooks", {
   id: text("id").primaryKey(),
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   characterId: text("character_id").references(() => characters.id, {
+    onDelete: "set null",
+  }),
+  worldPresetId: text("world_preset_id").references(() => worldPresets.id, {
     onDelete: "set null",
   }),
   name: text("name").notNull(),
@@ -88,6 +120,9 @@ export const chats = sqliteTable("chats", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   characterId: text("character_id").references(() => characters.id, {
+    onDelete: "set null",
+  }),
+  worldPresetId: text("world_preset_id").references(() => worldPresets.id, {
     onDelete: "set null",
   }),
   title: text("title").notNull().default("New Chat"),

@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { chats, messages, userSettings, characters } from "@/lib/db/schema"
+import {
+  chats,
+  messages,
+  userSettings,
+  characters,
+  worldPresets,
+} from "@/lib/db/schema"
 import { eq, and } from "drizzle-orm"
 import { getRequiredUserId } from "@/lib/auth/session"
 import { getProvider } from "@/lib/llm/registry"
@@ -101,6 +107,20 @@ export async function POST(
           .get()
       : null
 
+    // Load world preset if this chat has one
+    const worldPreset = chat.worldPresetId
+      ? db
+          .select()
+          .from(worldPresets)
+          .where(eq(worldPresets.id, chat.worldPresetId))
+          .get()
+      : null
+
+    // Parse formatting order from world preset or use default
+    const formattingOrder = worldPreset?.formattingOrder
+      ? { slots: JSON.parse(worldPreset.formattingOrder) as string[] }
+      : DEFAULT_FORMATTING_ORDER
+
     // Scan for lorebook entries
     const lorebookMatches = scanForEntries(
       existingMessages,
@@ -109,19 +129,21 @@ export async function POST(
       model
     )
 
-    // Build prompt with lorebook integration
+    // Build prompt with world preset + character integration
     const displayName =
       getSetting(userId, "display_name") ?? "User"
 
     const promptContext: PromptContext = {
+      worldSystemPrompt: worldPreset?.systemPrompt ?? "",
+      postHistoryInstructions: worldPreset?.postHistoryInstructions ?? "",
       characterName: character?.name ?? "Assistant",
       characterDescription: character?.description ?? "",
       characterPersonality: character?.personality ?? "",
       characterScenario: character?.scenario ?? "",
       characterFirstMessage: character?.firstMessage ?? "",
       characterMessageExample: character?.messageExample ?? "",
-      systemPrompt: character?.systemPrompt ?? "You are a helpful assistant.",
-      postHistoryInstructions: "",
+      characterSystemPrompt:
+        character?.systemPrompt ?? "You are a helpful assistant.",
       userName: displayName,
       messages: existingMessages
         .filter((m) => m.role !== "system")
@@ -134,8 +156,8 @@ export async function POST(
         position: m.position,
         tokenCount: m.tokenCount,
       })),
-      maxContextTokens: 128000,
-      formattingOrder: DEFAULT_FORMATTING_ORDER,
+      maxContextTokens: worldPreset?.maxContext ?? 128000,
+      formattingOrder,
     }
 
     const builtPrompt = buildPrompt(promptContext, model)

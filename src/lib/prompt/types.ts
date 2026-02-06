@@ -14,6 +14,7 @@ export interface FormattingOrder {
 export const DEFAULT_FORMATTING_ORDER: FormattingOrder = {
   slots: [
     "system_prompt",
+    "world_lore",
     "description",
     "personality",
     "scenario",
@@ -26,15 +27,20 @@ export const DEFAULT_FORMATTING_ORDER: FormattingOrder = {
 }
 
 export interface PromptContext {
+  // World Preset
+  worldSystemPrompt: string
+  postHistoryInstructions: string
+  // Character
   characterName: string
   characterDescription: string
   characterPersonality: string
   characterScenario: string
   characterFirstMessage: string
   characterMessageExample: string
-  systemPrompt: string
-  postHistoryInstructions: string
+  characterSystemPrompt: string
+  // User
   userName: string
+  // Chat
   messages: Array<{ role: "user" | "assistant"; content: string }>
   lorebookEntries: Array<{
     content: string

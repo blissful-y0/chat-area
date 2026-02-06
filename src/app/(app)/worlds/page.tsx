@@ -130,10 +130,10 @@ export default function WorldPresetsPage() {
 
           <div className="space-y-2">
             {presets.map((preset) => (
-              <button
+              <div
                 key={preset.id}
                 onClick={() => router.push(`/worlds/${preset.id}`)}
-                className="flex w-full items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3 text-left hover:border-zinc-700 hover:bg-zinc-800/50 transition-colors"
+                className="flex cursor-pointer items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3 text-left hover:border-zinc-700 hover:bg-zinc-800/50 transition-colors"
               >
                 <div className="flex items-center gap-3">
                   <Globe size={18} className="shrink-0 text-zinc-500" />
@@ -154,7 +154,7 @@ export default function WorldPresetsPage() {
                 >
                   <Trash2 size={14} />
                 </button>
-              </button>
+              </div>
             ))}
 
             {presets.length === 0 && !showCreate && (

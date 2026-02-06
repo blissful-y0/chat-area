@@ -1,0 +1,15 @@
+services:
+  chatarea:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - chatarea-data:/app/data
+    environment:
+      - AUTH_SECRET=${AUTH_SECRET:?Set AUTH_SECRET}
+      - ENCRYPTION_SECRET=${ENCRYPTION_SECRET:?Set ENCRYPTION_SECRET}
+      - DATABASE_URL=/app/data/chatarea.db
+    restart: unless-stopped
+
+volumes:
+  chatarea-data:

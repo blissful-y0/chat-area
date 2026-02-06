@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { Plus, MessageSquare, Settings, LogOut, User } from "lucide-react"
+import { Plus, MessageSquare, Settings, LogOut, User, BookOpen } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { useChatStore } from "@/stores/chat-store"
 import { useUiStore } from "@/stores/ui-store"
@@ -97,6 +97,18 @@ export function Sidebar() {
         >
           <User size={14} />
           <span>Characters</span>
+        </button>
+        <button
+          onClick={() => router.push("/lorebooks")}
+          className={cn(
+            "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors",
+            pathname.startsWith("/lorebooks")
+              ? "bg-zinc-800 text-zinc-100"
+              : "text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200"
+          )}
+        >
+          <BookOpen size={14} />
+          <span>Lorebooks</span>
         </button>
         <button
           onClick={() => router.push("/settings")}

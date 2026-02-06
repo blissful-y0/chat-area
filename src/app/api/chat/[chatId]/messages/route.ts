@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { chats, messages, userSettings } from "@/lib/db/schema"
+import { chats, messages, userSettings, characters } from "@/lib/db/schema"
 import { eq, and } from "drizzle-orm"
 import { getRequiredUserId } from "@/lib/auth/session"
 import { getProvider } from "@/lib/llm/registry"
@@ -8,6 +8,9 @@ import { decrypt } from "@/lib/crypto"
 import { randomUUID } from "crypto"
 import { z } from "zod/v4"
 import type { LlmMessage } from "@/lib/llm/types"
+import { scanForEntries } from "@/lib/lorebook"
+import { buildPrompt, DEFAULT_FORMATTING_ORDER } from "@/lib/prompt"
+import type { PromptContext } from "@/lib/prompt"
 
 const sendMessageSchema = z.object({
   content: z.string().min(1),
@@ -89,6 +92,54 @@ export async function POST(
       .where(eq(messages.chatId, chatId))
       .all() as LlmMessage[]
 
+    // Load character data if this chat has one
+    const character = chat.characterId
+      ? db
+          .select()
+          .from(characters)
+          .where(eq(characters.id, chat.characterId))
+          .get()
+      : null
+
+    // Scan for lorebook entries
+    const lorebookMatches = scanForEntries(
+      existingMessages,
+      chat.characterId,
+      userId,
+      model
+    )
+
+    // Build prompt with lorebook integration
+    const displayName =
+      getSetting(userId, "display_name") ?? "User"
+
+    const promptContext: PromptContext = {
+      characterName: character?.name ?? "Assistant",
+      characterDescription: character?.description ?? "",
+      characterPersonality: character?.personality ?? "",
+      characterScenario: character?.scenario ?? "",
+      characterFirstMessage: character?.firstMessage ?? "",
+      characterMessageExample: character?.messageExample ?? "",
+      systemPrompt: character?.systemPrompt ?? "You are a helpful assistant.",
+      postHistoryInstructions: "",
+      userName: displayName,
+      messages: existingMessages
+        .filter((m) => m.role !== "system")
+        .map((m) => ({
+          role: m.role as "user" | "assistant",
+          content: m.content,
+        })),
+      lorebookEntries: lorebookMatches.map((m) => ({
+        content: m.content,
+        position: m.position,
+        tokenCount: m.tokenCount,
+      })),
+      maxContextTokens: 128000,
+      formattingOrder: DEFAULT_FORMATTING_ORDER,
+    }
+
+    const builtPrompt = buildPrompt(promptContext, model)
+
     const assistantMessageId = randomUUID()
     let fullContent = ""
 
@@ -104,7 +155,7 @@ export async function POST(
 
           const llmStream = provider.streamChat(apiKey, {
             model,
-            messages: existingMessages,
+            messages: builtPrompt.messages,
             temperature,
             maxTokens,
           })

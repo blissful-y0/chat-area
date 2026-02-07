@@ -195,7 +195,7 @@ export default function LorebookDetailPage({
           </button>
 
           {/* Lorebook Settings */}
-          <section className="mb-8 space-y-3 rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+          <section className="mb-8 space-y-4 rounded-lg border border-zinc-800 bg-zinc-900 p-5">
             <h3 className="text-sm font-medium text-zinc-300">Settings</h3>
             <div className="grid grid-cols-2 gap-3">
               <div className="col-span-2">
@@ -203,7 +203,7 @@ export default function LorebookDetailPage({
                 <input
                   value={lbName}
                   onChange={(e) => setLbName(e.target.value)}
-                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
                 />
               </div>
               <div className="col-span-2">
@@ -213,7 +213,7 @@ export default function LorebookDetailPage({
                 <input
                   value={lbDescription}
                   onChange={(e) => setLbDescription(e.target.value)}
-                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
                 />
               </div>
               <div>
@@ -226,7 +226,7 @@ export default function LorebookDetailPage({
                   max={50}
                   value={lbScanDepth}
                   onChange={(e) => setLbScanDepth(Number(e.target.value))}
-                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
                 />
               </div>
               <div>
@@ -239,7 +239,7 @@ export default function LorebookDetailPage({
                   max={100000}
                   value={lbTokenBudget}
                   onChange={(e) => setLbTokenBudget(Number(e.target.value))}
-                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
                 />
               </div>
               <div className="col-span-2 flex items-center justify-between">
@@ -265,7 +265,7 @@ export default function LorebookDetailPage({
               <button
                 onClick={saveLorebook}
                 disabled={savingLb}
-                className="flex items-center gap-1.5 rounded-md bg-zinc-700 px-3 py-1.5 text-sm text-zinc-200 hover:bg-zinc-600 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-2 rounded-lg bg-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 hover:bg-zinc-600 disabled:opacity-50 transition-colors"
               >
                 <Save size={14} />
                 {savedLb ? "Saved!" : savingLb ? "Saving..." : "Save"}
@@ -281,7 +281,7 @@ export default function LorebookDetailPage({
               </h3>
               <button
                 onClick={addEntry}
-                className="flex items-center gap-1.5 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-sm text-zinc-300 hover:bg-zinc-700 transition-colors"
+                className="flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 transition-colors"
               >
                 <Plus size={14} />
                 Add Entry
@@ -396,7 +396,7 @@ function EntryCard({
 
       {/* Edit panel */}
       {isEditing && (
-        <div className="border-t border-zinc-800 p-4 space-y-3">
+        <div className="border-t border-zinc-800 p-5 space-y-4">
           <div>
             <label className="mb-1 block text-xs text-zinc-500">
               Keywords (comma separated)
@@ -404,7 +404,7 @@ function EntryCard({
             <input
               value={keys}
               onChange={(e) => setKeys(e.target.value)}
-              className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+              className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
             />
           </div>
           <div>
@@ -413,7 +413,7 @@ function EntryCard({
               value={content}
               onChange={(e) => setContent(e.target.value)}
               rows={4}
-              className="w-full resize-y rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+              className="w-full resize-y rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -427,7 +427,7 @@ function EntryCard({
                 max={1000}
                 value={priority}
                 onChange={(e) => setPriority(Number(e.target.value))}
-                className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+                className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
               />
             </div>
             <div>
@@ -437,23 +437,23 @@ function EntryCard({
               <select
                 value={position}
                 onChange={(e) => setPosition(e.target.value)}
-                className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+                className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
               >
                 <option value="before_char">Before Character</option>
                 <option value="after_char">After Character</option>
               </select>
             </div>
           </div>
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-3">
             <button
               onClick={onToggleEdit}
-              className="rounded-md px-3 py-1.5 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+              className="rounded-lg px-4 py-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
-              className="rounded-md bg-zinc-700 px-3 py-1.5 text-sm text-zinc-200 hover:bg-zinc-600 transition-colors"
+              className="rounded-lg bg-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 hover:bg-zinc-600 transition-colors"
             >
               Save Entry
             </button>

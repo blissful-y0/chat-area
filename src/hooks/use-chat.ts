@@ -3,6 +3,7 @@
 import { useCallback } from "react"
 import { useChatStore } from "@/stores/chat-store"
 import { useChatSettingsStore } from "@/stores/chat-settings-store"
+import { useChatContextStore } from "@/stores/chat-context-store"
 import type { Message } from "@/stores/chat-store"
 
 export function useChat(chatId: string) {
@@ -16,6 +17,8 @@ export function useChat(chatId: string) {
     setStreamingContent,
     appendStreamingContent,
   } = useChatStore()
+
+  const setMatchedEntryIds = useChatContextStore((s) => s.setMatchedEntryIds)
 
   const loadMessages = useCallback(async () => {
     try {
@@ -83,6 +86,7 @@ export function useChat(chatId: string) {
                     chatId,
                     role: "user",
                     content,
+                    characterId: null,
                     activeIndex: 0,
                     alternatives: [],
                     emotion: null,
@@ -95,12 +99,16 @@ export function useChat(chatId: string) {
                 case "text":
                   appendStreamingContent(event.content)
                   break
+                case "lorebook_matches":
+                  setMatchedEntryIds(event.entryIds ?? [])
+                  break
                 case "done": {
                   const assistantMsg: Message = {
                     id: event.id,
                     chatId,
                     role: "assistant",
                     content: useChatStore.getState().streamingContent,
+                    characterId: null,
                     activeIndex: 0,
                     alternatives: [],
                     emotion: null,
@@ -136,6 +144,7 @@ export function useChat(chatId: string) {
       setStreamingContent,
       appendStreamingContent,
       addMessage,
+      setMatchedEntryIds,
     ]
   )
 

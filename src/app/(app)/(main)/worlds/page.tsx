@@ -92,7 +92,7 @@ export default function WorldPresetsPage() {
             </div>
             <button
               onClick={() => setShowCreate(true)}
-              className="flex items-center gap-1.5 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-sm text-zinc-300 hover:bg-zinc-700 transition-colors"
+              className="flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 transition-colors"
             >
               <Plus size={14} />
               New
@@ -100,19 +100,19 @@ export default function WorldPresetsPage() {
           </div>
 
           {showCreate && (
-            <div className="mb-4 flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-900 p-3">
+            <div className="mb-4 flex items-center gap-3 rounded-lg border border-zinc-700 bg-zinc-900 p-4">
               <input
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleCreate()}
                 placeholder="World preset name..."
                 autoFocus
-                className="flex-1 rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none"
+                className="flex-1 rounded-lg border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none"
               />
               <button
                 onClick={handleCreate}
                 disabled={creating || !newName.trim()}
-                className="rounded-md bg-zinc-700 px-3 py-1.5 text-sm text-zinc-200 hover:bg-zinc-600 disabled:opacity-50 transition-colors"
+                className="rounded-lg bg-zinc-700 px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-600 disabled:opacity-50 transition-colors"
               >
                 Create
               </button>
@@ -121,19 +121,19 @@ export default function WorldPresetsPage() {
                   setShowCreate(false)
                   setNewName("")
                 }}
-                className="rounded-md px-2 py-1.5 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+                className="rounded-lg px-3 py-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
               >
                 Cancel
               </button>
             </div>
           )}
 
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {presets.map((preset) => (
               <div
                 key={preset.id}
                 onClick={() => router.push(`/worlds/${preset.id}`)}
-                className="flex cursor-pointer items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3 text-left hover:border-zinc-700 hover:bg-zinc-800/50 transition-colors"
+                className="flex cursor-pointer items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3.5 text-left hover:border-zinc-700 hover:bg-zinc-800/50 transition-colors"
               >
                 <div className="flex items-center gap-3">
                   <Globe size={18} className="shrink-0 text-zinc-500" />
@@ -150,7 +150,7 @@ export default function WorldPresetsPage() {
                 </div>
                 <button
                   onClick={(e) => handleDelete(preset.id, e)}
-                  className="rounded p-1 text-zinc-500 hover:bg-zinc-700 hover:text-red-400 transition-colors"
+                  className="rounded-md p-1.5 text-zinc-500 hover:bg-zinc-700 hover:text-red-400 transition-colors"
                 >
                   <Trash2 size={14} />
                 </button>

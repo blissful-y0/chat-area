@@ -1,0 +1,1 @@
+ALTER TABLE `messages` ADD `character_id` text REFERENCES characters(id);

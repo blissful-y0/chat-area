@@ -117,14 +117,14 @@ export default function CharactersPage() {
               />
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="inline-flex items-center gap-1.5 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-sm text-zinc-300 hover:bg-zinc-700 transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 transition-colors"
               >
                 <Upload size={14} />
                 임포트
               </button>
               <button
                 onClick={() => router.push("/characters/new")}
-                className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-200 transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-200 transition-colors"
               >
                 <Plus size={14} />
                 새 캐릭터
@@ -166,19 +166,19 @@ export default function CharactersPage() {
                     )}
                   </div>
 
-                  <div className="p-3">
+                  <div className="p-3.5">
                     <h3
                       className="font-medium text-sm text-zinc-100 truncate cursor-pointer hover:text-zinc-300"
                       onClick={() => router.push(`/characters/${char.id}`)}
                     >
                       {char.name}
                     </h3>
-                    <p className="text-xs text-zinc-500 mt-0.5 line-clamp-2">
+                    <p className="text-xs text-zinc-500 mt-1 line-clamp-2">
                       {char.description || "설명 없음"}
                     </p>
 
                     {char.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-2">
+                      <div className="flex flex-wrap gap-1.5 mt-2.5">
                         {char.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
@@ -191,24 +191,24 @@ export default function CharactersPage() {
                     )}
                   </div>
 
-                  <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => handleStartChat(char.id)}
-                      className="rounded-md bg-zinc-900/80 p-1.5 text-zinc-400 hover:text-zinc-100 backdrop-blur-sm"
+                      className="rounded-lg bg-zinc-900/80 p-2 text-zinc-400 hover:text-zinc-100 backdrop-blur-sm"
                       title="채팅 시작"
                     >
                       <MessageSquare size={14} />
                     </button>
                     <button
                       onClick={() => handleExport(char.id)}
-                      className="rounded-md bg-zinc-900/80 p-1.5 text-zinc-400 hover:text-zinc-100 backdrop-blur-sm"
+                      className="rounded-lg bg-zinc-900/80 p-2 text-zinc-400 hover:text-zinc-100 backdrop-blur-sm"
                       title="익스포트"
                     >
                       <Download size={14} />
                     </button>
                     <button
                       onClick={() => handleDelete(char.id, char.name)}
-                      className="rounded-md bg-zinc-900/80 p-1.5 text-zinc-400 hover:text-red-400 backdrop-blur-sm"
+                      className="rounded-lg bg-zinc-900/80 p-2 text-zinc-400 hover:text-red-400 backdrop-blur-sm"
                       title="삭제"
                     >
                       <Trash2 size={14} />

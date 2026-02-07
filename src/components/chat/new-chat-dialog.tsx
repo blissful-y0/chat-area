@@ -63,17 +63,17 @@ export function NewChatDialog({ open, onClose, onStart }: NewChatDialogProps) {
           </button>
         </div>
 
-        <div className="max-h-[60vh] overflow-y-auto p-4 space-y-4">
+        <div className="max-h-[60vh] overflow-y-auto p-5 space-y-5">
           {/* Character selection */}
           <div>
-            <label className="mb-2 flex items-center gap-1.5 text-xs font-medium text-zinc-400">
+            <label className="mb-2.5 flex items-center gap-1.5 text-xs font-medium text-zinc-400">
               <User size={12} />
               Character (optional)
             </label>
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               <button
                 onClick={() => setSelectedChar(null)}
-                className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors ${
+                className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
                   selectedChar === null
                     ? "border border-zinc-600 bg-zinc-800 text-zinc-100"
                     : "border border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-300"
@@ -86,7 +86,7 @@ export function NewChatDialog({ open, onClose, onStart }: NewChatDialogProps) {
                 <button
                   key={char.id}
                   onClick={() => setSelectedChar(char.id)}
-                  className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors ${
+                  className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
                     selectedChar === char.id
                       ? "border border-zinc-600 bg-zinc-800 text-zinc-100"
                       : "border border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-300"
@@ -108,14 +108,14 @@ export function NewChatDialog({ open, onClose, onStart }: NewChatDialogProps) {
 
           {/* World preset selection */}
           <div>
-            <label className="mb-2 flex items-center gap-1.5 text-xs font-medium text-zinc-400">
+            <label className="mb-2.5 flex items-center gap-1.5 text-xs font-medium text-zinc-400">
               <Globe size={12} />
               World Preset (optional)
             </label>
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               <button
                 onClick={() => setSelectedPreset(null)}
-                className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors ${
+                className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
                   selectedPreset === null
                     ? "border border-zinc-600 bg-zinc-800 text-zinc-100"
                     : "border border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-300"
@@ -128,7 +128,7 @@ export function NewChatDialog({ open, onClose, onStart }: NewChatDialogProps) {
                 <button
                   key={preset.id}
                   onClick={() => setSelectedPreset(preset.id)}
-                  className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors ${
+                  className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
                     selectedPreset === preset.id
                       ? "border border-zinc-600 bg-zinc-800 text-zinc-100"
                       : "border border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-300"
@@ -150,16 +150,16 @@ export function NewChatDialog({ open, onClose, onStart }: NewChatDialogProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-2 border-t border-zinc-800 px-4 py-3">
+        <div className="flex justify-end gap-3 border-t border-zinc-800 px-5 py-3.5">
           <button
             onClick={onClose}
-            className="rounded-md px-3 py-1.5 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+            className="rounded-lg px-4 py-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleStart}
-            className="rounded-md bg-zinc-700 px-4 py-1.5 text-sm text-zinc-200 hover:bg-zinc-600 transition-colors"
+            className="rounded-lg bg-zinc-700 px-5 py-2 text-sm font-medium text-zinc-200 hover:bg-zinc-600 transition-colors"
           >
             Start Chat
           </button>

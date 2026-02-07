@@ -5,6 +5,8 @@ export interface ChatSummary {
   title: string
   characterId: string | null
   updatedAt: string
+  characterName: string | null
+  characterAvatarUrl: string | null
 }
 
 export interface Message {
@@ -12,6 +14,7 @@ export interface Message {
   chatId: string
   role: string
   content: string
+  characterId: string | null
   activeIndex: number
   alternatives: string[]
   emotion: string | null

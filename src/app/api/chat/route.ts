@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { chats } from "@/lib/db/schema"
+import { chats, characters } from "@/lib/db/schema"
 import { eq, desc } from "drizzle-orm"
 import { getRequiredUserId } from "@/lib/auth/session"
+import { resolveAvatarUrl } from "@/lib/assets/resolve-url"
 import { randomUUID } from "crypto"
 import { z } from "zod/v4"
 
@@ -16,17 +17,29 @@ export async function GET() {
   try {
     const userId = await getRequiredUserId()
 
-    const result = db
+    const rows = db
       .select({
         id: chats.id,
         title: chats.title,
         characterId: chats.characterId,
         updatedAt: chats.updatedAt,
+        characterName: characters.name,
+        characterAvatarAssetId: characters.avatarAssetId,
       })
       .from(chats)
+      .leftJoin(characters, eq(chats.characterId, characters.id))
       .where(eq(chats.userId, userId))
       .orderBy(desc(chats.updatedAt))
       .all()
+
+    const result = rows.map((row) => ({
+      id: row.id,
+      title: row.title,
+      characterId: row.characterId,
+      updatedAt: row.updatedAt,
+      characterName: row.characterName ?? null,
+      characterAvatarUrl: resolveAvatarUrl(row.characterAvatarAssetId ?? null),
+    }))
 
     return NextResponse.json({ success: true, data: result })
   } catch (error) {

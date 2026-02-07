@@ -98,7 +98,6 @@ export async function POST(
       .where(eq(messages.chatId, chatId))
       .all() as LlmMessage[]
 
-    // Load character data if this chat has one
     const character = chat.characterId
       ? db
           .select()
@@ -107,7 +106,6 @@ export async function POST(
           .get()
       : null
 
-    // Load world preset if this chat has one
     const worldPreset = chat.worldPresetId
       ? db
           .select()
@@ -116,12 +114,10 @@ export async function POST(
           .get()
       : null
 
-    // Parse formatting order from world preset or use default
     const formattingOrder = worldPreset?.formattingOrder
       ? { slots: JSON.parse(worldPreset.formattingOrder) as string[] }
       : DEFAULT_FORMATTING_ORDER
 
-    // Scan for lorebook entries
     const lorebookMatches = scanForEntries(
       existingMessages,
       chat.characterId,
@@ -129,7 +125,6 @@ export async function POST(
       model
     )
 
-    // Build prompt with world preset + character integration
     const displayName =
       getSetting(userId, "display_name") ?? "User"
 
@@ -165,6 +160,8 @@ export async function POST(
     const assistantMessageId = randomUUID()
     let fullContent = ""
 
+    const matchedEntryIds = lorebookMatches.map((m) => m.id)
+
     const encoder = new TextEncoder()
     const stream = new ReadableStream({
       async start(controller) {
@@ -174,6 +171,14 @@ export async function POST(
               `data: ${JSON.stringify({ type: "user_message", id: userMessageId })}\n\n`
             )
           )
+
+          if (matchedEntryIds.length > 0) {
+            controller.enqueue(
+              encoder.encode(
+                `data: ${JSON.stringify({ type: "lorebook_matches", entryIds: matchedEntryIds })}\n\n`
+              )
+            )
+          }
 
           const llmStream = provider.streamChat(apiKey, {
             model,

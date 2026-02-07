@@ -144,6 +144,9 @@ export const messages = sqliteTable("messages", {
     .references(() => chats.id, { onDelete: "cascade" }),
   role: text("role").notNull(),
   content: text("content").notNull(),
+  characterId: text("character_id").references(() => characters.id, {
+    onDelete: "set null",
+  }),
   activeIndex: integer("active_index").notNull().default(0),
   alternatives: text("alternatives").notNull().default("[]"),
   emotion: text("emotion"),

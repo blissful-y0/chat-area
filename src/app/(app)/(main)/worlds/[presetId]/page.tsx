@@ -148,14 +148,14 @@ export default function WorldPresetEditPage({
 
           <div className="space-y-6">
             {/* Basic Info */}
-            <section className="space-y-3 rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+            <section className="space-y-4 rounded-lg border border-zinc-800 bg-zinc-900 p-5">
               <h3 className="text-sm font-medium text-zinc-300">Basic Info</h3>
               <div>
                 <label className="mb-1 block text-xs text-zinc-500">Name</label>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
                 />
               </div>
               <div>
@@ -165,13 +165,13 @@ export default function WorldPresetEditPage({
                 <input
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
                 />
               </div>
             </section>
 
             {/* System Prompt */}
-            <section className="space-y-3 rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+            <section className="space-y-4 rounded-lg border border-zinc-800 bg-zinc-900 p-5">
               <h3 className="text-sm font-medium text-zinc-300">
                 System Prompt (World Rules)
               </h3>
@@ -189,7 +189,7 @@ export default function WorldPresetEditPage({
             </section>
 
             {/* Post-History Instructions */}
-            <section className="space-y-3 rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+            <section className="space-y-4 rounded-lg border border-zinc-800 bg-zinc-900 p-5">
               <h3 className="text-sm font-medium text-zinc-300">
                 Post-History Instructions
               </h3>
@@ -207,7 +207,7 @@ export default function WorldPresetEditPage({
             </section>
 
             {/* Generation Settings */}
-            <section className="space-y-3 rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+            <section className="space-y-4 rounded-lg border border-zinc-800 bg-zinc-900 p-5">
               <h3 className="text-sm font-medium text-zinc-300">
                 Generation Defaults
               </h3>
@@ -223,7 +223,7 @@ export default function WorldPresetEditPage({
                     step={0.1}
                     value={temperature}
                     onChange={(e) => setTemperature(Number(e.target.value))}
-                    className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+                    className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
                   />
                 </div>
                 <div>
@@ -236,7 +236,7 @@ export default function WorldPresetEditPage({
                     max={32768}
                     value={maxTokens}
                     onChange={(e) => setMaxTokens(Number(e.target.value))}
-                    className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+                    className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
                   />
                 </div>
                 <div>
@@ -249,14 +249,14 @@ export default function WorldPresetEditPage({
                     max={2097152}
                     value={maxContext}
                     onChange={(e) => setMaxContext(Number(e.target.value))}
-                    className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
+                    className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:outline-none"
                   />
                 </div>
               </div>
             </section>
 
             {/* Formatting Order (read-only for now) */}
-            <section className="space-y-3 rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+            <section className="space-y-4 rounded-lg border border-zinc-800 bg-zinc-900 p-5">
               <h3 className="text-sm font-medium text-zinc-300">
                 Prompt Formatting Order
               </h3>
@@ -283,7 +283,7 @@ export default function WorldPresetEditPage({
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="flex items-center gap-1.5 rounded-md bg-zinc-700 px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-600 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-2 rounded-lg bg-zinc-700 px-5 py-2.5 text-sm font-medium text-zinc-200 hover:bg-zinc-600 disabled:opacity-50 transition-colors"
               >
                 <Save size={14} />
                 {saved ? "Saved!" : saving ? "Saving..." : "Save Preset"}

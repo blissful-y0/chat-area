@@ -90,13 +90,13 @@ export default function SettingsPage() {
             </p>
           </section>
 
-          <div className="space-y-4">
+          <div className="space-y-5">
             {SETTINGS.map((setting) => (
-              <div key={setting.key} className="space-y-1.5">
+              <div key={setting.key} className="space-y-2">
                 <label className="block text-sm font-medium text-zinc-300">
                   {setting.label}
                 </label>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   {setting.type === "select" ? (
                     <select
                       value={values[setting.key] ?? ""}
@@ -162,7 +162,7 @@ export default function SettingsPage() {
                       handleSave(setting.key, values[setting.key] ?? "")
                     }
                     disabled={saving[setting.key]}
-                    className="rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-700 disabled:opacity-50 transition-colors"
+                    className="rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 disabled:opacity-50 transition-colors"
                   >
                     {saved[setting.key] ? (
                       "Saved"
